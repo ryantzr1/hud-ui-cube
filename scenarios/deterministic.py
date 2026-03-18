@@ -55,7 +55,6 @@ def register_deterministic_scenarios(env: Any) -> None:
             return
 
         ques = task.get("ques", "")
-        ux_hint = task.get("ux_hint", "")
         web_url = task.get("web", "")
 
         # Localize the URL
@@ -74,13 +73,7 @@ def register_deterministic_scenarios(env: Any) -> None:
             logger.info("Navigating to task URL: %s", web_url)
             await tool.navigate(web_url)  # type: ignore[misc]
 
-        # Build and yield prompt
-        parts = [ques]
-        if ux_hint:
-            parts.append(f"\nHint: {ux_hint}")
-        if web_url:
-            parts.append(f"\nURL: {web_url}")
-        prompt = "\n".join([ques])
+        prompt = ques
 
         _ = yield prompt
 
